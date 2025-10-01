@@ -34,7 +34,7 @@ def howMuch():
         for row in reader:
             if len(row) >3  and row[3].strip():
                 sjanger = row[3].strip()
-                sjanger_count[sjanger] = sjanger_count.get(sjanger, 0) + 1
+                sjanger_count[sjanger] = sjanger_count.get(sjanger)
 
     return sjanger_count
 
