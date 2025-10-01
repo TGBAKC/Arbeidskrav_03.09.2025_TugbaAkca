@@ -2,8 +2,8 @@ from datetime import datetime
 
 date =input("Skriv inn en dato ")
 try:
-   date_object = datetime.strptime (date,"%d/%m/%Y")
-   print(date_object)
+   dato = datetime.strptime (date,"%d/%m/%Y")
+   print("Gyldig dato:", dato.strftime("%d.%m.%Y"))
 
 except ValueError:
     print("Feil: ugyldig dato!")
@@ -14,25 +14,18 @@ except ValueError:
 #oppgave 2.2
 
 lister = ["Cecilie" , 28, "Bjørn" , 30,"Tor", 24, "Anna" , 25]
-navnene = []
-alder = []
-for l in lister :
+navn = lister [::2]
+alder = lister [1::2]
 
-  if type(l) == str :
-
-    navnene.append (l)
-
-  else :
-    alder.append(l)
-
-print(  navnene,  alder)
+print("Navn:", navn)
+print("Alder:", alder)
 
 
 
 #oppgave 2.3
 
 
-lister = ["Cecilie" , 28, "Bjorn" , 30, "Tor", 24, "Anna" , 25]
+lister = ["Cecilie" , 28, "Bjørn", 30, "Tor", 24, "Anna" , 25]
 
 navn = lister [::2]
 alder = lister [1::2]

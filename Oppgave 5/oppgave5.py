@@ -9,7 +9,7 @@ with open(r"C:\Users\filiz\Downloads\bokutlån.csv", newline="", encoding="utf-8
     forlenget = 0
 
     for row in reader:
-        if row:
+        if len(row)>6:
             try:
                 forlenget += int(row[6])
             except ValueError:
@@ -32,9 +32,8 @@ def howMuch():
         next(reader)
 
         for row in reader:
-            if row:
-                sjanger = row[3]  # yazı ("Fantasy", "Krim", ...)
-                # sayacı arttır
+            if len(row) >3  and row[3].strip():
+                sjanger = row[3].strip()
                 sjanger_count[sjanger] = sjanger_count.get(sjanger, 0) + 1
 
     return sjanger_count
@@ -48,48 +47,67 @@ import csv
 
 with open(r"C:\Users\filiz\Downloads\bokutlån.csv", newline="", encoding="utf-8") as csvfile:
     reader = csv.reader(csvfile)
-    next(reader)  # başlık satırını atla
+    next(reader)
     total = 0
-    count =0
+    count = 0
     for row in reader:
-        if row:
-            total += int(row[5])
+        if len(row) > 6:
+            try:
+                periode = int(row[5])          # låneperiode
+                forlenget = int(row[6])        # forlengelse
+            except ValueError:
+                continue  # sayı değilse satırı atla
+
+            total += (periode + forlenget)     # her iki gün ekleniyor
             count += 1
-    average = total / count
+
+    average = total / count if count > 0 else 0
+    average_hele_dager = round(average)
 print(total)
-print(average)
+print(average_hele_dager)
+
 
 
 #oppgave 5.4
 import csv
 
 def ikkelevert():
-    total = 0
+    ikke_levert = []
 
     with open(r"C:\Users\filiz\Downloads\bokutlån.csv", newline="", encoding="utf-8") as csvfile:
         reader = csv.reader(csvfile)
         next(reader)
         for row in reader:
             if len(row) > 7 and row[7].strip().lower() == "nei":
-                total += 1
-    return total
+                fornavn = row[0].strip()
+                etternavn = row[1].strip()
+                boktittel = row[2].strip()
+                ikke_levert.append((fornavn, etternavn, boktittel))
+    return ikke_levert
+for fn, en, bok in ikkelevert():
+    print(f"{fn} {en} har ikke levert tilbake: {bok}")
 
-print(ikkelevert())
 
 #oppgave 5.5
 import csv
 
 def flestGanger():
-    count = 0
-    title = ""
+    counts = {}
 
     with open(r"C:\Users\filiz\Downloads\bokutlån.csv", newline="", encoding="utf-8") as csvfile:
         reader = csv.reader(csvfile)
-        next(reader)
+        next(reader)  # header atla
         for row in reader:
-            if row:
-                title = row[3]
-                count += 1
+            if len(row) > 2 and row[2].strip():
+                title = row[2].strip()
+                counts[title] = counts.get(title, 0) + 1
 
-    return title, count
+    if not counts:
+        return []
+
+    max_count = max(counts.values())  # en yüksek sayı
+    topp = [(t, c) for t, c in counts.items() if c == max_count]
+    topp.sort(key=lambda x: x[0])  # alfabetik sırala
+    return topp
+
 print(flestGanger())

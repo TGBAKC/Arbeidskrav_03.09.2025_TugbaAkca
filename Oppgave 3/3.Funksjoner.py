@@ -48,6 +48,6 @@ def forventer (func,expected,  *args, **kwargs):
 
 print(forventer(gyldig_ipv4, True , "192.168.0.1"))
 print(forventer(gyldig_ipv4, False,  "256.100.50.0"))
-print(forventer(gyldig_ipv4, True,  "256.100.50.0"))
+print(forventer(gyldig_ipv4, False,  "256.100.50.0"))
 
 
